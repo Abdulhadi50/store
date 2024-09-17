@@ -97,6 +97,8 @@
             color: red;
         }
     </style>
+    <!-- Google AdSense Code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
 
@@ -112,11 +114,21 @@
 
     <div class="content">
         <p>شركة STAR لتطوير التطبيقات و برمجة المواقع</p>
-        <!-- استبدال الصورة بالفيديو -->
         <video class="tweet-video" controls>
             <source src="https://github.com/abdulhadi50/store/raw/main/1000139015.mp4" type="video/mp4">
             المتصفح الخاص بك لا يدعم تشغيل الفيديو.
         </video>
+
+        <!-- AdSense Test Advertisement -->
+        <ins class="adsbygoogle"
+            style="display:block; margin-top: 10px;"
+            data-ad-client="ca-pub-3940256099942544"
+            data-ad-slot="1234567890"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 
     <div class="interactions">
@@ -132,37 +144,32 @@
     const likeIcon = document.getElementById('like-icon');
     const likeCount = document.getElementById('like-count');
 
-    // الحصول على قيمة الإعجابات من التخزين المحلي أو تعيينها إلى 2,908,787
     let likeNumber = parseInt(localStorage.getItem('likeNumber')) || 2908787;
     let lastUpdate = localStorage.getItem('lastUpdate') || new Date().getTime();
     let liked = localStorage.getItem('liked') === 'true';
 
-    // تحديث رقم الإعجابات في الصفحة
     function updateLikeCount() {
         likeCount.textContent = `${likeNumber.toLocaleString()}`;
     }
 
-    // تحديث حالة زر الإعجاب
     function updateLike() {
         if (liked) {
-            likeIcon.style.filter = "invert(22%) sepia(85%) saturate(7490%) hue-rotate(346deg) brightness(105%) contrast(120%)"; // لون أحمر
+            likeIcon.style.filter = "invert(22%) sepia(85%) saturate(7490%) hue-rotate(346deg) brightness(105%) contrast(120%)";
             likeCount.style.color = "red";
         } else {
-            likeIcon.style.filter = ""; // إعادة تعيين اللون
+            likeIcon.style.filter = "";
             likeCount.style.color = "";
         }
     }
 
-    // عند النقر على زر الإعجاب
     likeBtn.addEventListener('click', function () {
         liked = !liked;
         if (liked) {
-            likeNumber++; // زيادة العدد عند الإعجاب
+            likeNumber++;
         } else {
-            likeNumber--; // تقليل العدد إذا تم إلغاء الإعجاب
+            likeNumber--;
         }
 
-        // حفظ الحالة والعدد في التخزين المحلي
         localStorage.setItem('liked', liked);
         localStorage.setItem('likeNumber', likeNumber);
         localStorage.setItem('lastUpdate', new Date().getTime());
@@ -171,25 +178,21 @@
         updateLikeCount();
     });
 
-    // وظيفة لزيادة الإعجابات تلقائيًا كل ساعة
     function increaseLikes() {
         const now = new Date().getTime();
         const elapsed = now - lastUpdate;
-        if (elapsed >= 3600) { // إذا مر أكثر من ساعة (3600000 ملي ثانية)
-            likeNumber += Math.floor(elapsed / 3600) * 8; // زيادة 100 لايك لكل ساعة
+        if (elapsed >= 3600) {
+            likeNumber += Math.floor(elapsed / 3600) * 8;
             localStorage.setItem('likeNumber', likeNumber);
             localStorage.setItem('lastUpdate', now);
             updateLikeCount();
         }
     }
 
-    // تحديث الحالة عند تحميل الصفحة
     updateLike();
     updateLikeCount();
 
-    // تعيين تكرار زيادة الإعجابات كل دقيقة
-    setInterval(increaseLikes, 1000); // كل 60 ثانية
-
+    setInterval(increaseLikes, 1000);
 </script>
 
 </body>
