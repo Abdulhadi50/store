@@ -2,25 +2,98 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تغريدة</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> <!-- منع التكبير والتصغير -->
+    <title>ملف المستخدم والمنشورات</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #ffffff;
             display: flex;
-            justify-content: center;
-            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            padding: 5px;
             direction: rtl;
+            -webkit-user-select: none; /* منع النسخ في Chrome, Safari */
+            -moz-user-select: none; /* منع النسخ في Firefox */
+            -ms-user-select: none; /* منع النسخ في IE */
+            user-select: none; /* منع النسخ في بقية المتصفحات */
+        }
+
+        img {
+            pointer-events: none; /* منع تنزيل الصورة */
+            -webkit-user-drag: none; /* منع سحب الصورة */
+        }
+
+        .profile-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #f8f8f8;
+            border-radius: 15px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 10%;
+            margin-left: 20px;
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+
+        .verified {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
+
+        .profile-handle {
+            color: #657786;
+            margin-top: 5px;
+        }
+
+        .follow-btn {
+            background-color: #F9A028;
+            color: #ffffff;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 25px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .followed {
+            background-color: #657786;
         }
 
         .tweet-container {
-            width: 500px;
+            width: 100%;
+            max-width: 500px;
             background-color: #f0f0f0;
-            border-radius: 15px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 20px;
         }
-
+        
         .header {
             display: flex;
             align-items: center;
@@ -43,19 +116,19 @@
             font-weight: bold;
             margin-right: 5px;
         }
-
+        
         .verified {
             width: 20px;
             height: 20px;
             margin-right: 5px;
         }
-
+        
         .handle {
             color: #657786;
             margin-right: 10px;
             margin-top: -2px;
         }
-
+        
         .content {
             margin-top: 10px;
         }
@@ -65,7 +138,7 @@
             line-height: 1.5;
         }
 
-        .tweet-video {
+        .tweet-image {
             width: 100%;
             margin-top: 10px;
             border-radius: 15px;
@@ -81,7 +154,6 @@
         .interaction {
             display: flex;
             align-items: center;
-            cursor: pointer;
         }
 
         .interaction img {
@@ -97,56 +169,78 @@
             color: red;
         }
     </style>
-    <!-- Google AdSense Code -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
 
+<!-- ملف المستخدم -->
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="https://up6.cc/2024/09/172617657211774.jpg" alt="Profile Picture" class="profile-picture">
+        <div class="profile-info">
+            <span class="profile-name">
+                STAR
+                <img src="https://up6.cc/2024/09/172682288016881.png" alt="Verified" class="verified">
+            </span>
+            <span class="profile-handle">@Star</span>
+            <button id="follow-btn" class="follow-btn">متابعة</button>
+        </div>
+    </div>
+    <p>مرحباً بك في ملفي الشخصي. تابعني للحصول على آخر الأخبار والتحديثات.</p>
+</div>
+
+<!-- قسم المنشورات -->
 <div class="tweet-container">
     <div class="header">
         <img src="https://up6.cc/2024/09/172617657211774.jpg" alt="Profile Picture" class="profile-pic">
         <div class="user-info">
             <span class="username">STAR</span>
-            <img src="https://up6.cc/2024/09/172639189798991.png" alt="Verified" class="verified">
+            <img src="https://up6.cc/2024/09/172682288016881.png" alt="Verified" class="verified">
             <span class="handle">@Star</span>
         </div>
     </div>
 
     <div class="content">
-        <p>شركة STAR لتطوير التطبيقات و برمجة المواقع</p>
-        <video class="tweet-video" controls>
-            <source src="https://github.com/abdulhadi50/store/raw/main/1000139015.mp4" type="video/mp4">
-            المتصفح الخاص بك لا يدعم تشغيل الفيديو.
-        </video>
+        <p>سيتم إطلاق منصة الذكاء الاصطناعي قريباً</p>
+        <img src="https://github.com/abdulhadi50/store/raw/main/1000164268.jpg" alt="Tweet Image" class="tweet-image">
 
-        <!-- AdSense Test Advertisement -->
-        <ins class="adsbygoogle"
-            style="display:block; margin-top: 10px;"
-            data-ad-client="ca-pub-3940256099942544"
-            data-ad-slot="1234567890"
-            data-ad-format="auto"
-            data-full-width-responsive="true"></ins>
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
-
-    <div class="interactions">
-        <div class="interaction" id="like-btn">
-            <img src="https://img.icons8.com/material-outlined/999/facebook-like--v1.png" alt="Like" id="like-icon">
-            <span id="like-count">2,908,787</span>
+        <div class="interactions">
+            <div class="interaction" id="like-btn">
+                <img src="https://img.icons8.com/material-outlined/999/facebook-like--v1.png" alt="Like" id="like-icon">
+                <span id="like-count">3,8K</span>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
+    // زر المتابعة
+    const followBtn = document.getElementById('follow-btn');
+    let followed = localStorage.getItem('followed') === 'true';
+
+    function updateFollowButton() {
+        if (followed) {
+            followBtn.textContent = 'إلغاء المتابعة';
+            followBtn.classList.add('followed');
+        } else {
+            followBtn.textContent = 'متابعة';
+            followBtn.classList.remove('followed');
+        }
+    }
+
+    followBtn.addEventListener('click', function () {
+        followed = !followed;
+        localStorage.setItem('followed', followed);
+        updateFollowButton();
+    });
+
+    updateFollowButton();
+
+    // زر الإعجاب
     const likeBtn = document.getElementById('like-btn');
     const likeIcon = document.getElementById('like-icon');
     const likeCount = document.getElementById('like-count');
-
-    let likeNumber = parseInt(localStorage.getItem('likeNumber')) || 2908787;
-    let lastUpdate = localStorage.getItem('lastUpdate') || new Date().getTime();
     let liked = localStorage.getItem('liked') === 'true';
+    let likeNumber = parseInt(localStorage.getItem('likeNumber')) || 3800 + Math.floor(Math.random() * 100);
 
     function updateLikeCount() {
         likeCount.textContent = `${likeNumber.toLocaleString()}`;
@@ -172,27 +266,20 @@
 
         localStorage.setItem('liked', liked);
         localStorage.setItem('likeNumber', likeNumber);
-        localStorage.setItem('lastUpdate', new Date().getTime());
 
         updateLike();
         updateLikeCount();
     });
 
-    function increaseLikes() {
-        const now = new Date().getTime();
-        const elapsed = now - lastUpdate;
-        if (elapsed >= 3600) {
-            likeNumber += Math.floor(elapsed / 3600) * 8;
-            localStorage.setItem('likeNumber', likeNumber);
-            localStorage.setItem('lastUpdate', now);
-            updateLikeCount();
-        }
-    }
-
     updateLike();
     updateLikeCount();
 
-    setInterval(increaseLikes, 1000);
+    // منع النقر بالزر الأيمن على الصور
+    document.addEventListener('contextmenu', function (e) {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
 </script>
 
 </body>
