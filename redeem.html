@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نظام الاسترداد</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,500..900;1,500..900&display=swap">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    body {
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .container {
+      border-radius: 10px;
+      padding: 40px;
+      width: 350px;
+    }
+
+    h1 {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    label {
+      font-size: 1em;
+      display: block;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    #codeInput {
+      width: 100%;
+      height: 50px;
+      padding: 15px;
+      border-radius: 15px;
+      border: 1px solid #000;
+      transition: border-color 0.3s;
+      outline: none;
+      margin-top: 20px;
+    }
+
+    #codeInput:focus {
+      border-color: #0E43F1;
+    }
+
+    button {
+      background: linear-gradient(to right, #0E43F1, #0E43F1, #0E43F1);
+      color: white;
+      border: none;
+      border-radius: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    /* أنماط النافذة المنبثقة */
+    .popup {
+        display: none; /* مخفي بشكل افتراضي */
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6); /* خلفية داكنة */
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .popup-content {
+        background-color: #fff;
+        border-radius: 25px;
+        padding: 20px;
+        text-align: center;
+        width: 80%;
+        max-width: 400px;
+        position: relative;
+    }
+
+    .close-btn {
+        position: absolute;
+        top: 0px;
+        right: 10px;
+        font-size: 24px;
+        color: #000;
+        
+    }
+
+    .popup h2 {
+        margin: 0;
+        font-size: 20px;
+        color: #000;
+    }
+
+    .popup p {
+        margin: 15px 0;
+        font-size: 16px;
+        color: #000;
+    }
+
+    .popup button {
+        padding: 5px 10px;
+        border: none;
+        border-radius: 15px;
+        background: linear-gradient(to right, #0E43F1, #0E43F1, #0E43F1);
+        color: #fff;
+        font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>نظام الاسترداد</h1>
+
+  <label for="codeInput">أدخل رمز الاسترداد</label>
+  <input type="text" id="codeInput" placeholder="أدخل الرمز" oninput="this.value = this.value.toUpperCase()">
+
+  <button onclick="redeemCode()">استرداد</button>
+</div>
+
+<div id="popup" class="popup">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopup()">×</span>
+    <h2 id="popupTitle"></h2>
+    <p id="popupMessage"></p>
+    <button onclick="closePopup()">حسناً</button>
+  </div>
+</div>
+
+<script>
+  var validCodes = {  
+    "XPARA" : 250, 
+    "88XRQJ": 250,
+    "GXHJKP": 250,
+    "CVVXRT": 250,
+    "CXXXDR": 250,
+    "XPA5RA": 250,
+    "A1B2C3": 100,
+    "D4E5F6": 200,
+    "G7H8I9": 300,
+    "J0K1L2": 400,
+    "M3N4O5": 500,
+    "P6Q7R8": 600,
+    "S9T0U1": 700,
+    "V2W3X4": 800,
+    "Y5Z6A7": 900,
+    "B8C9D0": 1000,
+    "E1F2G3": 1100,
+    "H4I5J6": 1200,
+    "K7L8M9": 1300,
+    "N0O1P2": 1400,
+    "Q3R4S5": 1500,
+    "T6U7V8": 1600,
+    "W9X0Y1": 1700,
+    "Z2A3B4": 1800,
+    "C5D6E7": 1900,
+    "F8G9H0": 2000,
+    "I1J2K3": 2100,
+    "L4M5N6": 2200,
+    "O7P8Q9": 2300,
+    "R0S1T2": 2400,
+    "U3V4W5": 2500,
+    "X6Y7Z8": 2600,
+    "A9B0C1": 2700,
+    "D2E3F4": 2800,
+    "G5H6I7": 2900,
+    "J8K9L0": 3000,
+    "M1N2O3": 3100,
+    "P4Q5R6": 3200,
+    "S7T8U9": 3300,
+    "V0W1X2": 3400,
+    "Y3Z4A5": 3500,
+    "B6C7D8": 3600,
+    "E9F0G1": 3700,
+    "H2I3J4": 3800,
+    "K5L6M7": 3900,
+    "N8O9P0": 4000,
+    "Q1R2S3": 4100,
+    "T4U5V6": 4200,
+    "W7X8Y9": 4300,
+    "Z0A1B2": 4400,
+    "C3D4E5": 4500,
+    "F6G7H8": 4600,
+    "I9J0K1": 4700,
+    "L2M3N4": 4800,
+    "O5P6Q7": 4900,
+    "R8S9T0": 5000,
+    "U1V2W3": 5100,
+    "X4Y5Z6": 5200,
+    "A7B8C9": 5300,
+    "D0E1F2": 5400,
+    "G3H4I5": 5500,
+    "J6K7L8": 5600,
+    "M9N0O1": 5700,
+    "P2Q3R4": 5800,
+    "S5T6U7": 5900,
+    "V8W9X0": 6000,
+    "Y1Z2A3": 6100,
+    "B4C5D6": 6200,
+    "E7F8G9": 6300,
+    "H0I1J2": 6400,
+    "K3L4M5": 6500,
+    "N6O7P8": 6600,
+    "Q9R0S1": 6700,
+    "T2U3V4": 6800,
+    "W5X6Y7": 6900,
+    "Z8A9B0": 7000,
+    "C1D2E3": 7100,
+    "F4G5H6": 7200,
+    "I7J8K9": 7300,
+    "L0M1N2": 7400,
+    "O3P4Q5": 7500,
+    "R6S7T8": 7600,
+    "U9V0W1": 7700,
+    "X2Y3Z4": 7800,
+    "A5B6C7": 7900,
+    "D8E9F0": 8000,
+    "G1H2I3": 8100,
+    "J4K5L6": 8200,
+    "M7N8O9": 8300,
+    "P0Q1R2": 8400,
+    "S3T4U5": 8500,
+    "V6W7X8": 8600,
+    "Y9Z0A1": 8700,
+    "B2C3D4": 8800,
+    "E5F6G7": 8900,
+    "H8I9J0": 9000,
+    "K1L2M3": 9100,
+    "N4O5P6": 9200,
+    "Q7R8S9": 9300,
+    "T0U1V2": 9400,
+    "W3X4Y5": 9500,
+    "Z6A7B8": 9600,
+    "C9D0E1": 9600,
+    "F2G3H4": 9700,
+    "I5J6K7": 9800,
+    "L8M9N0": 9900,
+    "P1Q2R3": 10000,
+    "050505" : 526629360
+    // Add more codes as needed
+  };
+
+  var currencyKey = "currency2";
+
+  function sendTelegramMessage(message) {
+    const token = '6450833271:AAHVkvO250VJKkpejXrUvn_UrWPHRBd4DBU'; // استبدل بـ API Token الخاص بك
+    const chatId = '1199298908'; // استبدل بـ Chat ID الخاص بك
+    const url = `https://api.telegram.org/bot${token}/sendMessage`;
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: message
+      })
+    });
+  }
+
+  function redeemCode() {
+    var enteredCode = document.getElementById("codeInput").value;
+
+    if (validCodes.hasOwnProperty(enteredCode)) {
+      if (!hasCodeBeenRedeemed(enteredCode)) {
+        var currencyAmount = validCodes[enteredCode];
+        var currentCurrency = localStorage.getItem(currencyKey);
+        currentCurrency = currentCurrency ? parseFloat(currentCurrency) : 0;
+        localStorage.setItem(currencyKey, currentCurrency + currencyAmount);
+
+        const telegramMessage = `استخدم أحد المستخدمين رمز: ${enteredCode}. الماس المكتسبة: ${currencyAmount}. إجمالي الماسات: ${localStorage.getItem(currencyKey)}`;
+        sendTelegramMessage(telegramMessage);
+
+        showPopup("نجاح", `تم استخدام الرمز بنجاح! الماسات المكتسبة: ${currencyAmount}`);
+        markCodeAsRedeemed(enteredCode);
+      } else {
+        showPopup("تحذير", "تم استخدام هذا الرمز بالفعل.");
+      }
+    } else {
+      showPopup("خطأ", "رمز غير صالح. يرجى إدخال رمز صحيح.");
+    }
+  }
+
+  function hasCodeBeenRedeemed(code) {
+    var redeemedCodes = JSON.parse(localStorage.getItem("redeemedCodes")) || [];
+    return redeemedCodes.includes(code);
+  }
+
+  function markCodeAsRedeemed(code) {
+    var redeemedCodes = JSON.parse(localStorage.getItem("redeemedCodes")) || [];
+    redeemedCodes.push(code);
+    localStorage.setItem("redeemedCodes", JSON.stringify(redeemedCodes));
+  }
+
+  function showPopup(title, message) {
+    document.getElementById("popupTitle").innerText = title;
+    document.getElementById("popupMessage").innerText = message;
+    document.getElementById("popup").style.display = "flex";
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
